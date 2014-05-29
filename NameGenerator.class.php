@@ -3,6 +3,8 @@
 class NameGenerator {
 
   private $_glue;
+  
+  private $_previous;
 
   public function __construct($glue = ' ') {
 
@@ -23,8 +25,15 @@ class NameGenerator {
   public function next() {
     $first = $this->_first[array_rand($this->_first)];
     $last = $this->_last[array_rand($this->_last)];
-
-    return $first . $this->_glue . $last;
+    
+    $full_name = $first . $this->_glue . $last;
+    
+    if($this->_previous != $full_name) {
+      $this->_previous = $full_name;
+      return $this->_previous;
+    } else {
+      return $this->next();
+    }
   }
 
 }
